@@ -1,4 +1,4 @@
 DiamondSquare_Python
 ====================
 
-Implementation 
+Implementation diamond square terian generation with pyglet
