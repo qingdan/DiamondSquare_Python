@@ -1,0 +1,4 @@
+DiamondSquare_Python
+====================
+
+Implementation 
