@@ -10,8 +10,8 @@ class DiamondSquareTerrain():
         self.seed = seed
         self.deviations = deviations
         self.roughness = roughness
-        self.size = 2**iterations + 1
-        self.verticles = [[0.0 for i in range(0, self.size)] for j in range(0, self.size)]
+        self.size = 2**self.iterations + 1
+        self.verticles = [[0 for i in range(0, self.size)] for j in range(0, self.size)]
         if not random:
             self.assign_start_verticles()
         else:
@@ -25,17 +25,19 @@ class DiamondSquareTerrain():
         self.verticles[-1][-1] = self.seed
 
     def assign_random_verticles(self):
-        self.verticles[0][self.size - 1] = random.gauss(self.seed, self.deviation)
-        self.verticles[0][0] = random.gauss(self.seed, self.deviation)
-        self.verticles[self.size - 1][0] = random.gauss(self.seed, self.deviation)
-        self.verticles[self.size - 1][self.size - 1] = random.gauss(self.seed, self.deviation)
+        self.verticles[0][-1] = random.gauss(self.seed, self.deviations)
+        self.verticles[0][0] = random.gauss(self.seed, self.deviations)
+        self.verticles[-1][0] = random.gauss(self.seed, self.deviations)
+        self.verticles[-1][-1] = random.gauss(self.seed, self.deviations)
 
     def generate_height_map(self):
+        size = self.size - 1
         for i in range(self.iterations):
-            diff_a = (self.size - 1) / (2 ** (i + 1))
+            diff_a = size / 2 ** (i + 1)
             diff_b = diff_a * 2
-            for x in range(i ** 2):
-                for y in range(i ** 2):
+            for x in range(2 ** i):
+                for y in range(2 ** i):
+
                     dx = x * diff_b
                     dy = y * diff_b
                     # diamond vars / diamond step
@@ -120,7 +122,7 @@ if __name__ == '__main__':
         elif zrot < 0.0:
             zrot = 360.0
 
-    terrain = DiamondSquareTerrain(iterations=9, seed=0.0, deviations=60.0, roughness=1.0)
+    terrain = DiamondSquareTerrain(iterations=9, seed=10.0, deviations=60.0, roughness=1.0, random=True)
     terrain.generate_height_map()
     terrain.create_gl_contex()
     fps = pyglet.clock.ClockDisplay()
